@@ -116,6 +116,10 @@ model News {
    cd ../backend
    npx prisma studio
    ```
+7. 📄 Acessando a documentação da API (Swagger)
+A API conta com uma interface interativa de documentação gerada automaticamente via Swagger, facilitando testes e exploração dos endpoints disponíveis.
+
+   Após iniciar o servidor backend [Acesse aqui a documentação](http://localhost:3001/api/docs)
 
 ## Endpoints da API (Backend)
 
