@@ -52,7 +52,7 @@ export default function NewsForm({ onSubmit, initialData = {} }: any) {
         }}
         className="w-full"
       />
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+      <button type="submit" className="bg-black text-white px-4 py-2 rounded">
         Salvar
       </button>
     </form>
