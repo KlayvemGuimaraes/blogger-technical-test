@@ -21,7 +21,6 @@ export default function CreateNews() {
 
   return (
     <main className="relative bg-gradient-to-b from-white via-white to-gray-100 min-h-screen">
-      <div className="absolute top-0 left-0 w-full h-64 bg-[url('/banner.jpg')] bg-cover bg-center opacity-70" />
       <div className="relative z-10 pt-28 pb-10 max-w-2xl mx-auto px-4">
         <div className="bg-white p-8 rounded-xl shadow-md">
           <h1 className="text-3xl font-bold mb-6">Criar Nova Notícia</h1>
