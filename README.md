@@ -121,6 +121,14 @@ A API conta com uma interface interativa de documentação gerada automaticament
 
    Após iniciar o servidor backend [Acesse aqui a documentação](http://localhost:3001/api/docs)
 
+8. ⚙️ Decisões Técnicas Principais
+   - Next.js 14: framework React moderno, com SSR e ótimo suporte a TypeScript.
+   - Node.js + Express: backend simples, rápido e flexível para APIs REST.
+   - Prisma + SQLite: ORM fácil de usar e banco leve para desenvolvimento local.
+   - Multer: para upload de imagens direto no servidor.
+   - Tailwind CSS: estilização rápida com classes utilitárias.
+   - Foco no CRUD e upload, sem autenticação para simplicidade inicial.
+
 ## Endpoints da API (Backend)
 
 | Método | Rota   | Descrição                |
