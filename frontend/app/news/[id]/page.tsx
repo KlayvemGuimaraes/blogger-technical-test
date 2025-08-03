@@ -22,9 +22,11 @@ export async function generateStaticParams() {
 export default async function NewsDetailPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/news/${params.id}`, {
+  const { id } = await params
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/news/${id}`, {
     cache: 'no-store',
   })
 
