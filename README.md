@@ -1,4 +1,5 @@
 # Blogger | Portal de Notícias Fullstack – Next.js + Node.js + Prisma + SQLite
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## Sobre o Projeto
 
@@ -99,7 +100,7 @@ model News {
 
    ```bash
    cd ../backend
-   nodemon .\server.js
+   npm run dev
    ```
 
 5. Inicie o frontend:
@@ -107,6 +108,13 @@ model News {
    ```bash
    cd ../frontend
    npm run dev
+   ```
+
+6. (Opcional) Acesse o Prisma Studio para visualizar o banco de dados em uma interface web:
+
+   ```bash
+   cd ../backend
+   npx prisma studio
    ```
 
 ## Endpoints da API (Backend)
@@ -128,7 +136,11 @@ As imagens são armazenadas na pasta:
 backend/uploads/
 ```
 
-O campo `imageUrl` no banco armazena o nome/URL da imagem para visualização.
+O campo imageUrl no banco armazena o nome da imagem, que é usado para gerar a URL de acesso público:
+
+```bash
+http://localhost:3001/uploads/NOME_DA_IMAGEM.jpg
+```
 
 ## Observações Importantes
 
@@ -142,3 +154,7 @@ O campo `imageUrl` no banco armazena o nome/URL da imagem para visualização.
 
 - Desenvolvido por Klayvem Guimarães
 - klayvemguik@email.com
+
+## 📝 Licença
+
+Este projeto está licenciado sob os termos da licença [MIT](LICENSE).
