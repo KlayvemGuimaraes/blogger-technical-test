@@ -1,126 +1,144 @@
-# 📰 Portal de Notícias Fullstack – Next.js + Node.js
+# Blogger | Portal de Notícias Fullstack – Next.js + Node.js + Prisma + SQLite
 
-Este é um projeto fullstack de um portal de notícias com funcionalidades de **CRUD** (Create, Read, Update, Delete) e **upload de imagens**, feito com:
+## Sobre o Projeto
+
+Este é um projeto fullstack de um portal de notícias com funcionalidades de **CRUD** (Create, Read, Update, Delete) e **upload de imagens**, desenvolvido com:
 
 - **Frontend**: Next.js 14, TypeScript e Tailwind CSS
-- **Backend**: Node.js com Express e armazenamento local (JSON + uploads via Multer)
+- **Backend**: Node.js com Express, Prisma ORM usando SQLite e upload de imagens via Multer
 
----
+## Funcionalidades
 
-## 🚧 Funcionalidades
+- [x] Criar notícia
+- [x] Listar notícias
+- [x] Editar notícia
+- [x] Excluir notícia
+- [x] Upload e visualização de imagens
+- [x] Integração fullstack entre frontend e backend com banco SQLite usando Prisma
 
-✅ Criar notícia  
-✅ Listar notícias  
-✅ Editar notícia  
-✅ Excluir notícia  
-✅ Upload e visualização de imagens  
-✅ Integração fullstack entre frontend e backend  
-
----
-
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 ### Frontend
+
 - [Next.js 14](https://nextjs.org/)
 - [React](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 
 ### Backend
+
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
+- [Prisma ORM](https://www.prisma.io/)
+- [SQLite](https://www.sqlite.org/index.html)
 - [Multer](https://github.com/expressjs/multer)
-- [UUID](https://www.npmjs.com/package/uuid)
-- [dotenv](https://www.npmjs.com/package/dotenv)
 - [CORS](https://expressjs.com/en/resources/middleware/cors.html)
+- [dotenv](https://www.npmjs.com/package/dotenv)
 
+## Estrutura do Banco de Dados (Prisma Schema)
 
-1. Clone o repositório
-bash
-Copiar
-Editar
-git clone https://github.com/seu-usuario/portal-de-noticias.git
-cd portal-de-noticias
+```prisma
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
 
+generator client {
+  provider = "prisma-client-js"
+}
 
-Crie um arquivo .env na pasta backend/ com:
+model News {
+  id        Int      @id @default(autoincrement())
+  title     String
+  summary   String
+  body      String
+  imageUrl  String
+  createdAt DateTime @default(now())
+}
+```
 
-ini
-Copiar
-Editar
-PORT=3001
+## Como Rodar o Projeto
 
-3. Instale as dependências
-Backend:
-bash
-Copiar
-Editar
-cd backend
-npm install
+1. Clone o repositório:
 
+   ```bash
+   git clone https://github.com/KlayvemGuimaraes/blogger-technical-test
+   cd blog
+   ```
 
-Frontend:
-bash
-Copiar
-Editar
-cd ../frontend
-npm install
+2. Configure as variáveis de ambiente:
 
-4. Inicie o servidor backend
-bash
-Copiar
-Editar
-cd backend
-NODEMON server,js
+   Crie um arquivo `.env` na pasta `backend/` com o conteúdo:
 
-5. Inicie o frontend
-bash
-Copiar
-Editar
-cd frontend
-npm run dev
+   ```env
+   DATABASE_URL="file:./dev.db"
+   PORT=3001
+   ```
 
-🔗 Endpoints da API (Backend)
-GET /noticias: Lista todas as notícias
+   Observação: O backend usa SQLite via Prisma, então o banco será criado automaticamente em `backend/dev.db`.
 
-POST /noticias: Cria uma nova notícia (com imagem)
+3. Instale as dependências:
 
-PUT /noticias/:id: Atualiza uma notícia existente
+   Backend:
 
-DELETE /noticias/:id: Deleta uma notícia
+   ```bash
+   cd backend
+   npm install
+   npx prisma generate    # Gera o cliente Prisma
+   npx prisma migrate dev --name init  # Cria a tabela News no SQLite
+   ```
 
-Imagens são acessadas em: http://localhost:3001/uploads/NOME_DA_IMAGEM.jpg
+   Frontend:
 
-🖼 Uploads de Imagem
-O backend usa multer para processar imagens. Os arquivos são salvos na pasta:
+   ```bash
+   cd ../frontend
+   npm install
+   ```
 
-bash
-Copiar
-Editar
+4. Inicie o backend:
+
+   ```bash
+   cd ../backend
+   nodemon .\server.js
+   ```
+
+5. Inicie o frontend:
+
+   ```bash
+   cd ../frontend
+   npm run dev
+   ```
+
+## Endpoints da API (Backend)
+
+| Método | Rota   | Descrição                |
+| ------ | ------ | ------------------------ |
+| GET    | /news  | Lista todas as notícias  |
+| POST   | /news  | Cria uma nova notícia (com imagem) |
+| PUT    | /news/:id | Atualiza uma notícia existente |
+| DELETE | /news/:id | Deleta uma notícia     |
+
+## Uploads de Imagem
+
+O backend utiliza Multer para processar uploads.
+
+As imagens são armazenadas na pasta:
+
+```bash
 backend/uploads/
-E os nomes dos arquivos são referenciados no objeto da notícia salvo no db.json.
+```
 
+O campo `imageUrl` no banco armazena o nome/URL da imagem para visualização.
 
-❗ Observações
-O backend utiliza um "banco de dados fake" (db.json) para persistência local
+## Observações Importantes
 
-As imagens não são salvas em banco, mas sim em disco
+- O banco de dados é SQLite gerenciado pelo Prisma, criado automaticamente.
+- As imagens são salvas no disco, não no banco.
+- O projeto não implementa autenticação; o foco está na funcionalidade CRUD e upload.
+- Para resetar os dados, apague o arquivo `dev.db` em `backend/` e os arquivos dentro de `backend/uploads/`.
+- Use `npx prisma studio` para visualizar os dados do banco em interface web.
 
-O projeto não usa autenticação — foco principal está no CRUD e integração
+## Contato
 
-Para resetar os dados, apague os arquivos dentro de uploads/ e o conteúdo do db.json
-
-📬 Contato
-Desenvolvido por [Seu Nome Aqui] 🚀
-Entre em contato: seuemail@email.com
-
-🧠 Inspiração
-Este projeto foi feito para praticar integração fullstack, com foco em:
-
-Boas práticas com REST API
-
-Manipulação de arquivos e uploads
-
-Responsividade e usabilidade no frontend com Tailwind
-
-Experiência fullstack usando ferramentas modernas
+- Desenvolvido por Klayvem Guimarães
+- klayvemguik@email.com
