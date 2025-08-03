@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: API Blogger Documentation
+  version: 1.0.0
+  description: API para gerenciar notícias
+paths:
+  /news:
+    get:
+      summary: Lista todas as notícias
+      responses:
+        '200':
+          description: Lista de notícias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/News'
+
+    post:
+      summary: Cria uma nova notícia
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - title
+                - summary
+                - content
+              properties:
+                title:
+                  type: string
+                summary:
+                  type: string
+                content:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Notícia criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+        '400':
+          description: Dados inválidos
+
+  /news/{id}:
+    get:
+      summary: Obtém notícia por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Notícia encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+        '404':
+          description: Notícia não encontrada
+
+    put:
+      summary: Atualiza notícia pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                summary:
+                  type: string
+                content:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Notícia atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+        '400':
+          description: Dados inválidos
+        '404':
+          description: Notícia não encontrada
+
+    delete:
+      summary: Deleta notícia pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Notícia deletada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Notícia não encontrada
+
+components:
+  schemas:
+    News:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        summary:
+          type: string
+        body:
+          type: string
+        imageUrl:
+          type:
+            - string
+            - "null"
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - summary
+        - body
+        - createdAt

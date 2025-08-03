@@ -5,6 +5,9 @@ const fs = require('fs');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+
 const app = express();
 const prisma = new PrismaClient();
 const upload = multer({ dest: 'uploads/' });
@@ -12,6 +15,14 @@ const upload = multer({ dest: 'uploads/' });
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
+
+// Carregar o arquivo swagger.yml (coloque esse arquivo na raiz do projeto ou ajuste o path)
+const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yml'));
+
+// Configurar rota para Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Rotas da API
 
 // List all news
 app.get('/news', async (req, res) => {
@@ -42,10 +53,8 @@ app.get('/news/:id', async (req, res) => {
 // Create news
 app.post('/news', upload.single('image'), async (req, res) => {
   try {
-    console.log('req.body:', req.body)
     const { title, summary } = req.body;
     const content = req.body.content || req.body.body;
-
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
     if (!content || typeof content !== 'string') {
@@ -111,4 +120,8 @@ app.delete('/news/:id', async (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log('Backend running on port 3001'));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+  console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
+});
