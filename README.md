@@ -76,6 +76,11 @@ model News {
    PORT=3001
    ```
 
+   Crie também um arquivo `.env` na pasta `frontend/` com o conteúdo:
+
+   ```env
+   VITE_API_URL=http://localhost:3001
+   ```
    Observação: O backend usa SQLite via Prisma, então o banco será criado automaticamente em `backend/dev.db`.
 
 3. Instale as dependências:

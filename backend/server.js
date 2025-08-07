@@ -120,6 +120,29 @@ app.delete('/news/:id', async (req, res) => {
   }
 });
 
+// Adicione esta rota no seu backend (server.js)
+app.get('/news', async (req, res) => {
+  try {
+    const { q } = req.query;
+    
+    const news = await prisma.news.findMany({
+      where: q ? {
+        OR: [
+          { title: { contains: q, mode: 'insensitive' } },
+          { summary: { contains: q, mode: 'insensitive' } },
+          { body: { contains: q, mode: 'insensitive' } }
+        ]
+      } : {},
+      orderBy: { createdAt: 'desc' }
+    });
+    
+    res.json(news);
+  } catch (err) {
+    console.error('Error fetching news:', err);
+    res.status(500).json({ error: 'Error fetching news' });
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
